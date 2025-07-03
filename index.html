@@ -16,6 +16,17 @@
         <link rel="stylesheet" href="assets/css/styles.css">
 
         <title>Responsive Website Travel</title>
+        <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+        </script>
+        <script type="text/javascript">
+        (function(){
+            emailjs.init({
+                publicKey: "puA3puu9jv8UP87lu",
+            });
+        })();
+        </script>
+        <script src="assets/js/form.js"></script>
     </head>
     <body>
         <header class="header" id="header">
@@ -258,12 +269,13 @@
                 </p>
 
                 <form id="appointment-form" class="appointment__form">
-                    <input type="text" name="user_name" placeholder="Your Name" class="appointment__input" required>
-                    <input type="email" name="user_email" placeholder="Your Email" class="appointment__input" required>
+                    <input type="text" name="name"  placeholder="Your Name" class="appointment__input" required>
+                    <input type="email" name="email"  placeholder="Your Email" class="appointment__input" required>
                     <input type="text" name="subject" placeholder="Subject" class="appointment__textarea">
+                    <input type="hidden" name="date" id="form-date">
                     <textarea name="message" placeholder="Your Message / Preferred Time" rows="4" class="appointment__textarea" required></textarea>
 
-                    <button type="submit" class="button">Send Request</button>
+                    <button type="submit" id="submit-btn" class="button" onclick="sendEmail()">Send Request</button>
                 </form>
 
                 <p id="form-status" class="status-message"></p>
