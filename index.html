@@ -248,25 +248,29 @@
             </div>
             </section>
 
-            <!--==================== SUBSCRIBE ====================-->
-            <section class="subscribe section">
-                <div class="subscribe__bg">
-                    <div class="subscribe__container container">
-                        <h2 class="section__title subscribe__title">Subscribe Our <br> Newsletter</h2>
-                        <p class="subscribe__description">Subscribe to our newsletter and get a 
-                            special 30% discount.
-                        </p>
-    
-                        <form action="" class="subscribe__form">
-                            <input type="text" placeholder="Enter email" class="subscribe__input">
-    
-                            <button class="button">
-                                Subscribe
-                            </button>
-                        </form>
-                    </div>
+            <!--==================== BOOK AN APPOINTMENT ====================-->
+            <section class="appointment section" id="appointment">
+            <div class="appointment__bg">
+                <div class="appointment__container container">
+                <h2 class="appointment__title">Book an Appointment</h2>
+                <p class="appointment__description">
+                    Fill out the form and we'll reach out to you shortly.
+                </p>
+
+                <form id="appointment-form" class="appointment__form">
+                    <input type="text" name="user_name" placeholder="Your Name" class="appointment__input" required>
+                    <input type="email" name="user_email" placeholder="Your Email" class="appointment__input" required>
+                    <input type="text" name="subject" placeholder="Subject" class="appointment__textarea">
+                    <textarea name="message" placeholder="Your Message / Preferred Time" rows="4" class="appointment__textarea" required></textarea>
+
+                    <button type="submit" class="button">Send Request</button>
+                </form>
+
+                <p id="form-status" class="status-message"></p>
                 </div>
+            </div>
             </section>
+
             
             <!--==================== SPONSORS ====================-->
             <section class="sponsor section">
