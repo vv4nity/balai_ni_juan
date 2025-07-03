@@ -1021,3 +1021,25 @@ input {
     height: 640px;
   }
 }
+
+/* For Nav*/
+.active-link {
+  position: relative;
+  color:#FFF;
+}
+
+.active-link::before {
+  content: '';
+  position: absolute;
+  bottom: -0.75rem;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.active-link.active-animate::before {
+  width: 100%;
+}
+
