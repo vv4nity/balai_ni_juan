@@ -6,9 +6,22 @@ const navMenu = document.getElementById('nav-menu'),
 if (navToggle) {
   navToggle.addEventListener('click', () => navMenu.classList.add('show-menu'));
 }
-if (navClose) {
-  navClose.addEventListener('click', () => navMenu.classList.remove('show-menu'));
+
+/*==================== REMOVE MENU MOBILE ====================*/
+const navLink = document.querySelectorAll('.nav__link')
+
+function linkAction() {
+    // Remove active-link class from all links
+    navLink.forEach(n => n.classList.remove('active-link'));
+    // Add active-link to the clicked link
+    this.classList.add('active-link');
+
+    // Close the menu on mobile
+    navMenu.classList.remove('show-menu');
 }
+navLink.forEach(n => n.addEventListener('click', linkAction));
+
+
 
 /*=============== NAV LINK ACTIONS ===============*/
 const navLinks = document.querySelectorAll('.nav__link');
@@ -111,40 +124,17 @@ if (typeof ScrollReveal !== 'undefined') {
   `, {
     origin: 'top',
     interval: 100,
-  });
+})
 
-  sr.reveal(`
-    .about__data, .video__description, .subscribe__description
-  `, { origin: 'left' });
+sr.reveal(`.about__data, 
+           .video__description,
+           .subscribe__description`,{
+    origin: 'left',
+})
 
-  sr.reveal(`
-    .about__img-overlay, .video__content, .subscribe__form
-  `, { origin: 'right', interval: 100 });
-}
-
-/*=============== DARK / LIGHT THEME TOGGLE ===============*/
-const themeButton = document.getElementById('theme-button'),
-      darkTheme = 'dark-theme',
-      iconTheme = 'ri-sun-line';
-
-const selectedTheme = localStorage.getItem('selected-theme'),
-      selectedIcon = localStorage.getItem('selected-icon');
-
-const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light';
-const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'ri-moon-line' : 'ri-sun-line';
-
-if (selectedTheme) {
-  document.body.classList.toggle(darkTheme, selectedTheme === 'dark');
-  if (themeButton) {
-    themeButton.classList.toggle(iconTheme, selectedIcon === 'ri-moon-line');
-  }
-}
-
-if (themeButton) {
-  themeButton.addEventListener('click', () => {
-    document.body.classList.toggle(darkTheme);
-    themeButton.classList.toggle(iconTheme);
-    localStorage.setItem('selected-theme', getCurrentTheme());
-    localStorage.setItem('selected-icon', getCurrentIcon());
-  });
-}
+sr.reveal(`.about__img-overlay, 
+           .video__content,
+           .subscribe__form`,{
+    origin: 'right',
+    interval: 100,
+})
