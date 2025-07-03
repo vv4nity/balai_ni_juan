@@ -1,22 +1,10 @@
-/*==================== SHOW MENU ====================*/
+/*=============== SHOW / HIDE MENU ===============*/
 const navMenu = document.getElementById('nav-menu'),
       navToggle = document.getElementById('nav-toggle'),
-      navClose = document.getElementById('nav-close')
+      navClose = document.getElementById('nav-close');
 
-/*===== MENU SHOW =====*/
-/* Validate if constant exists */
-if(navToggle){
-    navToggle.addEventListener('click', () =>{
-        navMenu.classList.add('show-menu')
-    })
-}
-
-/*===== MENU HIDDEN =====*/
-/* Validate if constant exists */
-if(navClose){
-    navClose.addEventListener('click', () =>{
-        navMenu.classList.remove('show-menu')
-    })
+if (navToggle) {
+  navToggle.addEventListener('click', () => navMenu.classList.add('show-menu'));
 }
 
 /*==================== REMOVE MENU MOBILE ====================*/
@@ -35,102 +23,105 @@ navLink.forEach(n => n.addEventListener('click', linkAction));
 
 
 
-/*==================== CHANGE BACKGROUND HEADER ====================*/
-function scrollHeader(){
-    const header = document.getElementById('header')
-    // When the scroll is greater than 100 viewport height, add the scroll-header class to the header tag
-    if(this.scrollY >= 100) header.classList.add('scroll-header'); else header.classList.remove('scroll-header')
-}
-window.addEventListener('scroll', scrollHeader)
+/*=============== NAV LINK ACTIONS ===============*/
+const navLinks = document.querySelectorAll('.nav__link');
 
-/*==================== SWIPER DISCOVER ====================*/
-let swiper = new Swiper(".discover__container", {
-    effect: "coverflow",
+navLinks.forEach(link => {
+  link.addEventListener('click', function () {
+    navMenu.classList.remove('show-menu');
+    navLinks.forEach(l => l.classList.remove('active-link', 'active-animate'));
+    this.classList.add('active-link');
+    setTimeout(() => this.classList.add('active-animate'), 10);
+  });
+});
+
+/*=============== CHANGE HEADER BACKGROUND ON SCROLL ===============*/
+const header = document.getElementById('header');
+if (header) {
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scroll-header', window.scrollY >= 100);
+  });
+}
+
+/*=============== SWIPER: DISCOVER SECTION ===============*/
+if (typeof Swiper !== 'undefined') {
+  new Swiper('.discover__container', {
+    effect: 'coverflow',
     grabCursor: true,
     centeredSlides: true,
-    slidesPerView: "auto",
+    slidesPerView: 'auto',
     loop: true,
     spaceBetween: 32,
-    coverflowEffect: {
-        rotate: 0,
-    },
-})
+    coverflowEffect: { rotate: 0 }
+  });
+}
 
-/*==================== VIDEO ====================*/
-const videoFile = document.getElementById('video-file'),
-      videoButton = document.getElementById('video-button'),
-      videoIcon = document.getElementById('video-icon')
+/*=============== VIDEO CONTROLS ===============*/
+const video = document.getElementById('video-file'),
+      videoBtn = document.getElementById('video-button'),
+      videoIcon = document.getElementById('video-icon');
 
-function playPause(){ 
-    if (videoFile.paused){
-        // Play video
-        videoFile.play()
-        // We change the icon
-        videoIcon.classList.add('ri-pause-line')
-        videoIcon.classList.remove('ri-play-line')
+if (video && videoBtn && videoIcon) {
+  videoBtn.addEventListener('click', () => {
+    if (video.paused) {
+      video.play();
+      videoIcon.classList.replace('ri-play-line', 'ri-pause-line');
+    } else {
+      video.pause();
+      videoIcon.classList.replace('ri-pause-line', 'ri-play-line');
     }
-    else {
-        // Pause video
-        videoFile.pause(); 
-        // We change the icon
-        videoIcon.classList.remove('ri-pause-line')
-        videoIcon.classList.add('ri-play-line')
+  });
 
+  video.addEventListener('ended', () => {
+    videoIcon.classList.replace('ri-pause-line', 'ri-play-line');
+  });
+}
+
+/*=============== SHOW SCROLL-UP BUTTON ===============*/
+const scrollUpBtn = document.getElementById('scroll-up');
+if (scrollUpBtn) {
+  window.addEventListener('scroll', () => {
+    scrollUpBtn.classList.toggle('show-scroll', window.scrollY >= 200);
+  });
+}
+
+/*=============== SCROLL SECTIONS ACTIVE LINK ===============*/
+const sections = document.querySelectorAll('section[id]');
+
+function scrollActive() {
+  const scrollY = window.pageYOffset;
+
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 50,
+          sectionHeight = section.offsetHeight,
+          sectionId = section.getAttribute('id'),
+          navItem = document.querySelector(`.nav__menu a[href*="${sectionId}"]`);
+
+    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+      navLinks.forEach(l => l.classList.remove('active-link', 'active-animate'));
+      if (navItem) {
+        navItem.classList.add('active-link');
+        setTimeout(() => navItem.classList.add('active-animate'), 10);
+      }
     }
+  });
 }
-videoButton.addEventListener('click', playPause)
+window.addEventListener('scroll', scrollActive);
 
-function finalVideo(){
-    // Video ends, icon change
-    videoIcon.classList.remove('ri-pause-line')
-    videoIcon.classList.add('ri-play-line')
-}
-// ended, when the video ends
-videoFile.addEventListener('ended', finalVideo)
-
-
-/*==================== SHOW SCROLL UP ====================*/ 
-function scrollUp(){
-    const scrollUp = document.getElementById('scroll-up');
-    // When the scroll is higher than 200 viewport height, add the show-scroll class to the a tag with the scroll-top class
-    if(this.scrollY >= 200) scrollUp.classList.add('show-scroll'); else scrollUp.classList.remove('show-scroll')
-}
-window.addEventListener('scroll', scrollUp)
-
-/*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
-const sections = document.querySelectorAll('section[id]')
-
-function scrollActive(){
-    const scrollY = window.pageYOffset
-
-    sections.forEach(current =>{
-        const sectionHeight = current.offsetHeight
-        const sectionTop = current.offsetTop - 50;
-        sectionId = current.getAttribute('id')
-
-        if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight){
-            document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.add('active-link')
-        }else{
-            document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.remove('active-link')
-        }
-    })
-}
-window.addEventListener('scroll', scrollActive)
-
-/*==================== SCROLL REVEAL ANIMATION ====================*/
-const sr = ScrollReveal({
+/*=============== SCROLL REVEAL ANIMATIONS ===============*/
+if (typeof ScrollReveal !== 'undefined') {
+  const sr = ScrollReveal({
     distance: '60px',
     duration: 2800,
     // reset: true,
-})
+  });
 
-
-sr.reveal(`.home__data, .home__social-link, .home__info,
-           .discover__container,
-           .experience__data, .experience__overlay,
-           .place__card,
-           .sponsor__content,
-           .footer__data, .footer__rights`,{
+  sr.reveal(`
+    .home__data, .home__social-link, .home__info,
+    .discover__container, .experience__data,
+    .experience__overlay, .place__card,
+    .sponsor__content, .footer__data, .footer__rights
+  `, {
     origin: 'top',
     interval: 100,
 })
